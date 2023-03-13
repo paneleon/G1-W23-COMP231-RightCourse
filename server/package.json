@@ -1,0 +1,23 @@
+{
+  "name": "g1-w23-comp231-rightcourse",
+  "version": "1.0.0",
+  "description": "RightCourse 1.0",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "COMP231W23_T1",
+  "license": "MIT",
+  "devDependencies": {
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^7.0.1"
+  }
+}
