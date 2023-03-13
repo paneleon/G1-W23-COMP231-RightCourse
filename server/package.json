@@ -4,7 +4,7 @@
   "description": "RightCourse 1.0",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server/server.js",
+    "server": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "COMP231W23_T1",
