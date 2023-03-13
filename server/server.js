@@ -6,6 +6,8 @@ const { connectDB } = require('./config/db')
 const cors = require('cors')
 const app = express()
 
+
+
 // Connect to MongoDB database
 connectDB()
 
@@ -15,8 +17,10 @@ app.use(cors());
 app.use(urlencoded({ extended: false }))
 
 // Routers 
+app.use('/api/course', require('./routes/courseRoutes'))
+app.use('/api/review', require('./routes/reviewRoutes'))
 
-app.listen(port, () => console.log(`Server running on port: ${port}`))
+app.listen(port, () => console.log(`RightCourse - Server running on port: ${port}`))
 
 
 
