@@ -6,7 +6,6 @@
 #.env
 .env
 
-
 # User-specific files
 *.rsuser
 *.suo
@@ -17,7 +16,7 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# Mono auto genT1erated files
+# Mono auto generated files
 mono_crash.*
 
 # Build results
