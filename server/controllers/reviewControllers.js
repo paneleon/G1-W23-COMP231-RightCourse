@@ -1,45 +1,33 @@
-const asyncHander = require('express-async-handler')
+const asyncHandler = require('express-async-handler')
 const Review = require('../models/review')
 
-//@ desc    Get all course review of a course
+//@ desc    Get all course reviews of a courseId
 //@ route   GET --TBD
 //@ access  PUBLIC  
-const getReviewByCourse = asyncHander(async (req, res) => {
+const getReviewByCourseId = asyncHandler(async (req, res) => {
     // Methods to be implemented...
 })
 
 //@ desc    Get one course review by review id
 //@ route   GET /api/review/:id
 //@ access  PUBLIC   
-const getReviewByReviewId = asyncHander(async (req, res) => {
-    let review = await Review.findById(req.params.id);
+const getReviewByReviewId = asyncHandler(async (req, res) => {
 
-    res.json(review);
+    try{
+        let review = await Review.findById(req.params.id);
+
+        if(review==null) {
+            return res.status(404).json({message: `Review with id ${req.params.id} does not exist`});
+        }
+        res.json(review);
+    }
+    catch(error){
+        return res.status(500).json(error);
+    }
+    
 })
-
-//@ desc    Get course reviews by topic
-//@ route   GET --TBD
-//@ access  PUBLIC   
-const getReviewByTopic = asyncHander(async (req, res) => {
-    // Methods to be implemented...
-})
-
-//@ desc    Get course reviews by professor name
-//@ route   GET --TBD
-//@ access  PUBLIC   
-const getReviewByProfessor = asyncHander(async (req, res) => {
-    // Methods to be implemented...
-})
-
-//@ desc    Get course reviews by comments
-//@ route   GET --TBD
-//@ access  PUBLIC   
-const getReviewByComment = asyncHander(async (req, res) => {
-    // Methods to be implemented...
-})
-
 
 
 module.exports = {
-    getReviewByCourse, getReviewByReviewId, getReviewByProfessor, getReviewByTopic, getReviewByComment
+    getReviewByCourseId, getReviewByReviewId
 }
