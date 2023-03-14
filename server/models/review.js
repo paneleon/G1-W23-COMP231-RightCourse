@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const Course = require('./course')
+const Schema = mongoose.Schema;
 
-const reviewSchema = new mongoose.Schema({
+const reviewSchema = new Schema({
     courseId: {
         type: Schema.Types.ObjectId,
         ref: Course

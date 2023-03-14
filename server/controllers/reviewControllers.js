@@ -1,4 +1,5 @@
 const asyncHander = require('express-async-handler')
+const Review = require('../models/review')
 
 //@ desc    Get all course review of a course
 //@ route   GET --TBD
@@ -8,10 +9,12 @@ const getReviewByCourse = asyncHander(async (req, res) => {
 })
 
 //@ desc    Get one course review by review id
-//@ route   GET --TBD
+//@ route   GET /api/review/:id
 //@ access  PUBLIC   
 const getReviewByReviewId = asyncHander(async (req, res) => {
-    // Methods to be implemented...
+    let review = await Review.findById(req.params.id);
+
+    res.json(review);
 })
 
 //@ desc    Get course reviews by topic
