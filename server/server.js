@@ -20,6 +20,7 @@ app.use(urlencoded({ extended: false }))
 app.use('/api/course', require('./routes/courseRoutes'))
 app.use('/api/review', require('./routes/reviewRoutes'))
 app.use('/api/school', require('./routes/schoolRoutes'))
+app.use('/api/search', require('./routes/searchRoutes'))
 
 app.listen(port, () => console.log(`RightCourse - Server running on port: ${port}`))
 
