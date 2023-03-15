@@ -20,7 +20,7 @@ const reviewQueryHandler = asyncHandler(async (req, res) => {
     }
 });
 
-//@ desc    Get all course reviews of a courseId
+//@ desc    Get all course reviews by course ID
 //@ route   GET /api/search/review?cid={courseId}
 //@ access  PUBLIC  
 const getAllReviewsByCourseId = asyncHandler(async (req, res) => {
@@ -37,23 +37,27 @@ const getAllReviewsByCourseId = asyncHandler(async (req, res) => {
     }
 });
 
-//@ desc    Get reviews matches search criteria
+//@ desc    Get all course reviews by school ID
 //@ route   GET /api/search/review?sid={schoolId}
 //@ access  PUBLIC  
 const getAllReviewsBySchoolId = asyncHandler(async (req, res) => {
+
     const schoolId = req.query.sid;
     const courses = await Course.find({ schoolId });
-
     let reviews = [];
 
-    // loop through each course object and add its reviews to the reviews array
-    for (const course of courses) {
-        const courseId = course._id;
-        const courseReviews = await Review.find({ courseId });
-        reviews.push(...courseReviews);
+    try {
+        for (const course of courses) {
+            const courseId = course._id;
+            const courseReviews = await Review.find({ courseId });
+            reviews.push(...courseReviews);
+        }
+    
+        res.json(reviews);
+    } catch (error) {
+        res.status(404).json(error);
     }
 
-    res.json(reviews);
 });
 
 module.exports = {
