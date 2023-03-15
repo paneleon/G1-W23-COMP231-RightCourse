@@ -18,15 +18,7 @@ const getSchoolBySchoolId = asyncHandler(async (req, res) => {
     }
 })
 
-//@ desc    Get school by schoolName
-//@ route   GET --TBD
-//@ access  PUBLIC   
-const getSchoolBySchoolName = asyncHandler(async (req, res) => {
-    // Methods to be implemented...
-})
-
-
 module.exports = {
-    getSchoolBySchoolName, getSchoolBySchoolId
+    getSchoolBySchoolId
 }
 

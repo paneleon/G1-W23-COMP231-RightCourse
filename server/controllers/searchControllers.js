@@ -22,6 +22,25 @@ const getAllReviewsByCourseId = asyncHandler(async (req, res) => {
 
 
 
+//@ desc    Get school by schoolName
+//@ route   GET /api/search/school?schoolName={schoolName}
+//@ access  PUBLIC   
+const getSchoolBySchoolName = asyncHandler(async (req, res) => {
+    
+    // retrieve the schoolName from the query
+    const schoolName = req.query.schoolName;
+
+    try {
+        // find courses containing course name (case insensitive)
+        const schools = await School.find({ schoolName: { $regex: new RegExp(schoolName, "i") } });
+        res.json(schools);
+    } catch (error) {
+        res.status(404).json(error);
+    }
+})
+
+
+
 //@ desc    Handle review search queries 
 //@ route   /api/search/review?{query}={}
 //@ access  PUBLIC   
@@ -80,7 +99,7 @@ const getCourseByCourseCode = asyncHandler(async (req, res) => {
 //@ route   GET /api/search/course?courseName={courseName}
 //@ access  PUBLIC   
 const getCourseByCourseName = asyncHandler(async (req, res) => {
-    
+
     const courseName = req.query.courseName
 
     try {
@@ -93,5 +112,5 @@ const getCourseByCourseName = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getAllReviewsByCourseId, courseQueryHandler
+    getAllReviewsByCourseId, getSchoolBySchoolName, courseQueryHandler
 } 

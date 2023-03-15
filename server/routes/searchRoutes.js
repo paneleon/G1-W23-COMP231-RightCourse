@@ -6,5 +6,7 @@ const searchController = require('../controllers/searchControllers')
 router.get('/review', searchController.getAllReviewsByCourseId)
 //@ desc    Get courses by schoolId, courseCode, or courseName
 router.get('/course', searchController.courseQueryHandler)
+//@ desc    Get school by school name
+router.get('/school', searchController.getSchoolBySchoolName)
 
 module.exports = router
