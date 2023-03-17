@@ -16,7 +16,7 @@ const schoolSchema = new Schema({
     },
     description: {
         type: String
-    },
-})
+    }
+}, { timestamps: true })
 
 module.exports = mongoose.model('School', schoolSchema)
