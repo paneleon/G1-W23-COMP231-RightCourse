@@ -1,22 +1,19 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-const schoolSchema = new Schema({
-    schoolName: {
+const userSchema = new Schema({
+    username: {
         type: String,
         required: true
     },
-    schoolType: {
+    password: {
         type: String,
         required: true
     },
-    location: {
+    role: {
         type: String,
         required: true
     },
-    description: {
-        type: String
-    }
 }, { timestamps: true })
 
-module.exports = mongoose.model('School', schoolSchema)
+module.exports = mongoose.model('User', userSchema)
