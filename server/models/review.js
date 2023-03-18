@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Course = require('./course')
+const User = require('./user')
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
@@ -7,12 +8,10 @@ const reviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: Course
     },
-    /* 
     userId: {
         type: Schema.Types.ObjectId,
         ref: User
     },
-    */
     professorName: {
         type: String
     },

@@ -6,6 +6,7 @@ const { connectDB } = require("./config/db");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 
 const School = require("./models/school");
 const Course = require("./models/course");
@@ -17,6 +18,7 @@ connectDB();
 // Tools
 app.use(json());
 app.use(cors());
+app.use(cookieParser());
 app.use(urlencoded({ extended: false }));
 
 // Routers
@@ -24,6 +26,7 @@ app.use("/api/course", require("./routes/courseRoutes"));
 app.use("/api/review", require("./routes/reviewRoutes"));
 app.use("/api/school", require("./routes/schoolRoutes"));
 app.use("/api/search", require("./routes/searchRoutes"));
+app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use("/api/resetData", async (req, res) => {
     const schoolData = [
