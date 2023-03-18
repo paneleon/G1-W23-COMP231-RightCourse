@@ -23,4 +23,20 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-module.exports = { requireAuth };
+// Middleware to prevent logged-in users from logging in or signing up again
+const preventLoggedInUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if (decoded) {
+          return res.status(403).json({ message: 'You are already logged in.' });
+        }
+      } catch (err) {
+        return next(err);
+      }
+    }
+    next();
+  }
+
+module.exports = { requireAuth, preventLoggedInUser };
