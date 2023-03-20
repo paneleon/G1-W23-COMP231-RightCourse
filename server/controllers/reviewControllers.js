@@ -1,4 +1,5 @@
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+const Course = require('../models/course');
 const Review = require('../models/review')
 
 //@ desc    Get one course review by review id
@@ -56,9 +57,14 @@ const updateReview = asyncHandler(async (req, res) => {
     const userId = req.user._id;
 
     const review = await Review.findById(reviewId);
+    const course = await Course.findById(courseId);
 
     if (!review) {
       return res.status(404).json({ message: `Review with id ${reviewId} does not exist` });
+    }
+
+    if (!course) {
+      return res.status(404).json({ message: `Invalid course information` });
     }
 
     if (review.userId.toString() !== userId.toString()) {
