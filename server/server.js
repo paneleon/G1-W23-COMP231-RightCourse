@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const School = require("./models/school");
 const Course = require("./models/course");
 const Review = require("./models/review");
+const User = require("./models/user");
 
 // Connect to MongoDB database
 connectDB();
@@ -29,6 +30,44 @@ app.use("/api/search", require("./routes/searchRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use("/api/resetData", async (req, res) => {
+    /* 
+    password is password or password<number after role in email> 
+    user, admin, editor => password
+    user2 => password2
+    */
+    const userData = [
+        {
+            _id: new mongoose.Types.ObjectId("64189d2acd26c3cc9c90d6b7"),
+            username: "admin@gmail.com",
+            password: "$2b$10$7b8NpYFXKctDpwc09cWwEe93zDdW1COMFVNdUzbtzbY50txHceH4i",
+            role: "admin"
+        },
+        {
+            _id: new mongoose.Types.ObjectId("64189dde80a7b8b4d27b5b34"),
+            username: "editor@gmail.com",
+            password: "$2b$10$4lONp61WcBeOGcTWABKJCOZX1biUkz1yEuV8PDijBi1GlW5y7aIEa",
+            role: "editor"
+        },
+        {
+            _id: new mongoose.Types.ObjectId("6415d1d29cacc8e72d270f90"),
+            username: "user@gmail.com",
+            password: "$2b$10$kbvY5Yo.jPBu/ZKg2P3ji.LQLmSY7G06JTXvqy2LHlVBBevNQ09TW",
+            role: "user"
+        },
+        {
+            _id: new mongoose.Types.ObjectId("64161d8e9945dcf1c5ebe663"),
+            username: "user2@gmail.com",
+            password: "$2b$10$7WCjd/BJbGDH5zMwMq8N7OJnCTxddSaSX7aXcr8h9heE/.NErdPUC",
+            role: "user"
+        },
+        {
+            _id: new mongoose.Types.ObjectId("641623c1e331c6b275d91c58"),
+            username: "user3@gmail.com",
+            password: "$2b$10$/5Fr2/s2NFkgGRPq9dn6wOpDMjX4Zi5562W978CpvBKzxJayykaeq",
+            role: "user"
+        }
+    ]
+    
     const schoolData = [
         {
             _id: new mongoose.Types.ObjectId("6410c8b12c4cfa3a85862ace"),
@@ -93,6 +132,7 @@ app.use("/api/resetData", async (req, res) => {
                 "Professor Smith was knowledgeable and approachable. He provided clear explanations of difficult topics and made himself available for office hours. The only downside was that the course workload was quite heavy.",
             effectiveness: 4,
             courseId: new mongoose.Types.ObjectId("6410c9852c4cfa3a85862ad9"),
+            userId: new mongoose.Types.ObjectId("6415d1d29cacc8e72d270f90"),
         },
         {
             _id: new mongoose.Types.ObjectId("6410cb282c4cfa3a85862aef"),
@@ -102,6 +142,7 @@ app.use("/api/resetData", async (req, res) => {
                 "I found this course to be very informative and practical. The assignments gave me the opportunity to develop my design skills and try out different techniques. Professor Doe was approachable and responsive to questions and concerns. I learned a lot about the importance of composition and layout in creating effective designs.",
             effectiveness: 5,
             courseId: new mongoose.Types.ObjectId("6410c9b32c4cfa3a85862add"),
+            userId: new mongoose.Types.ObjectId("64161d8e9945dcf1c5ebe663"),
         },
         {
             _id: new mongoose.Types.ObjectId("6410cb612c4cfa3a85862af2"),
@@ -111,6 +152,7 @@ app.use("/api/resetData", async (req, res) => {
                 "This was an good course that provided a solid foundation in graphic design principles. Professor Smith was knowledgeable and engaging, and provided helpful feedback on our assignments. I particularly enjoyed the unit on typography and the use of typefaces to convey different moods and meanings.",
             effectiveness: 3,
             courseId: new mongoose.Types.ObjectId("6410cc982c4cfa3a85862b01"),
+            userId: new mongoose.Types.ObjectId("641623c1e331c6b275d91c58"),
         },
         {
             _id: new mongoose.Types.ObjectId("6410cc982c4cfa3a85862b01"),
@@ -120,10 +162,15 @@ app.use("/api/resetData", async (req, res) => {
                 "I really enjoyed this course and found it to be very interesting and engaging. Professor Lee was knowledgeable and passionate about the subject matter, and presented the material in a way that was easy to follow. I appreciated the opportunity to learn about different topics in psychology, including social behavior and abnormal psychology. The assignments and exams were fair and allowed me to demonstrate my understanding of the material.",
             effectiveness: 5,
             courseId: new mongoose.Types.ObjectId("6410c9ed2c4cfa3a85862ae2"),
+            userId: new mongoose.Types.ObjectId("6415d1d29cacc8e72d270f90"),
         },
     ];
 
     try {
+        // user
+        await User.deleteMany();
+        await User.insertMany(userData);
+
         // school
         await School.deleteMany();
         await School.insertMany(schoolData);
