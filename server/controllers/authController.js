@@ -22,7 +22,14 @@ const signup = asyncHandler(async (req, res) => {
     await newUser.save();
 
     const token = jwt.sign({ _id: newUser._id, username, role: newUser.role }, process.env.JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true });
+    // res.cookie('token', token, { httpOnly: true });
+
+    // set cookie header reponse that expires in 1 day
+    res.cookie("token", token, {
+        httpOnly: true,
+        domain: "localhost",
+        expires: new Date(Date.now() + 86400000),
+    });
 
     res.json({
         message: 'User created successfully',
@@ -30,7 +37,8 @@ const signup = asyncHandler(async (req, res) => {
             _id: newUser._id,
             username: username,
             role: role
-        }
+        },
+        token,
     });
 });
 
@@ -62,7 +70,8 @@ const login = asyncHandler(async (req, res) => {
             _id: user._id,
             username: username,
             role: user.role
-        }
+        },
+        token,
     });
 });
 
