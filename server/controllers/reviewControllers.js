@@ -85,6 +85,34 @@ const updateReview = asyncHandler(async (req, res) => {
   }
 });
 
+//@ desc    Delete a review
+//@ route   DELETE /api/review/add
+//@ access  PRIVATE
+const deleteReview = asyncHandler(async (req, res) => {
+  try {
+    // delete review with id and decrease review count for course and caculate new average effectiveness
+    const review = await Review.findById(req.params.id);
+    const course = await Course.findById(review.courseId);
+    console.log(course);
+    course.totalReviews -= 1;
+    course.averageRating =
+      (course.averageRating * (course.totalReviews + 1) -
+        Number(review.effectiveness)) /
+        course.totalReviews || 0;
+    console.log(course.averageRating);
+
+    await course.save();
+    await Review.findByIdAndDelete(req.params.id);
+
+    res.status(201).json({ message: "Review deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    res
+      .status(500)
+      .json({ message: "Unable to add review", error: err.message });
+  }
+});
+
 module.exports = {
-  getReviewByReviewId, addReview, updateReview
+  getReviewByReviewId, addReview, updateReview, deleteReview
 }

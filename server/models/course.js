@@ -18,6 +18,14 @@ const courseSchema = new Schema({
     description: {
         type: String
     },
+    totalReviews: {
+        type: Number,
+        default: 0,
+    },
+        averageRating: {
+        type: Number,
+        default: 0,
+    },
 }, { timestamps: true })
 
 module.exports = mongoose.model('course', courseSchema)
