@@ -74,4 +74,16 @@ const logout = asyncHandler(async (req, res) => {
     res.json({ message: 'Logout successful' });
 });
 
-module.exports = { signup, login, logout };
+//@ desc    Get current user
+//@ route   POST /api/auth/me
+//@ access  PRIVATE
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const user = req.user;
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      role: user.role,
+    });
+});
+
+module.exports = { signup, login, logout, getCurrentUser };
