@@ -1,0 +1,13 @@
+
+# In order to push code
+
+git add .
+
+git commit -m "your message"
+
+git pull  (check if any conflicts -> contact other developers to resolve it first)
+
+git push
+
+
+

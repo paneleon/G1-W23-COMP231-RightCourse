@@ -1,0 +1,84 @@
+# Pages
+SHARED LAYOUT [ASSIGNED TO Shreyas]
+- Navigation component: 
+    + RightCourse Text (which navigate users to /)
+    + All Courses (which navigate users to /courses)
+    + Discussion Board (which navigate users to /discussions)
+    + Login (button) (which navigate users to /login page)
+    + Register (button) (which navigate users to /register page)
+- Footer
+ + Text: "Copyright 2023 - Group 01 - COMP 231"
+
+HOME (/) - ASSIGNED TO Shreyas
+- Search section
+    + Input text Search
+    + Search button
+- Hero section 
+    + Illustration
+    + Text (Welcome to the RightCourse - Start to share your precious reviews)
+
+LOGIN (/login) ASSIGNED TO Shreyas
+- Title: RightCourse
+- Form
+    + Email
+    + Password
+    + Login button
+    + Text: Dont have account -> Register here (which is a link that navigate users to register page)
+
+REGISTER (/register) ASSIGNED TO Shreyas
+- Title: RightCourse
+- Form
+    + Email
+    + Password
+    + Role: admin | editor | user
+    + Register button
+    + Text: Already have an account -> Login here (which is a link that navigate users to login page)
+
+
+ALL POSTS PAGE (/discussions) : display all posts
+- All discussions
+    - Title
+    - Content
+    - Number of replies
+
+- Add new post (button)
+
+
+CREATE NEW POSTS PAGE (/discussions/[postId])
+- Form 
+    + Title
+    + Content
+    + Post (button)
+Note: After submmision, it should redirect users to ALL DISCUSSION PAGE
+
+POST DETAILS PAGE
+- Section: Post Details
+    + Title
+    + Content
+- Section: Reply 
+    - Text: display total replies
+    - Create new reply form
+        + Content
+        + Reply (button)
+    - Reply lists (which display a lists of replies)
+        + User name 
+        + Date created
+        + Content
+
+
+ALL REVIEWS OF A PARTICULAR COURSE (/courses/courseId/reviews) : display all review of a course + and have a form for add new review
+- Text title: All reviews
+- Course Summary
+    + School
+    + Course name
+- List of reviews
+    + Rating Number
+    + Comment
+    + Edit/Delete button (if user is the one who create that review)
+- Form (for adding new review)
+    + Rating Number
+    + Comment
+    + Add review (button)
+
+
+
