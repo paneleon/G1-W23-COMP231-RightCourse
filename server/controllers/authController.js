@@ -22,7 +22,14 @@ const signup = asyncHandler(async (req, res) => {
     await newUser.save();
 
     const token = jwt.sign({ _id: newUser._id, username, role: newUser.role }, process.env.JWT_SECRET);
-    res.cookie('token', token, { httpOnly: true });
+    // res.cookie('token', token, { httpOnly: true });
+
+    // set cookie header reponse that expires in 1 day
+    res.cookie("token", token, {
+        httpOnly: true,
+        domain: "localhost",
+        expires: new Date(Date.now() + 86400000),
+    });
 
     res.json({
         message: 'User created successfully',
@@ -30,7 +37,8 @@ const signup = asyncHandler(async (req, res) => {
             _id: newUser._id,
             username: username,
             role: role
-        }
+        },
+        token,
     });
 });
 
@@ -62,7 +70,8 @@ const login = asyncHandler(async (req, res) => {
             _id: user._id,
             username: username,
             role: user.role
-        }
+        },
+        token,
     });
 });
 
@@ -74,4 +83,16 @@ const logout = asyncHandler(async (req, res) => {
     res.json({ message: 'Logout successful' });
 });
 
-module.exports = { signup, login, logout };
+//@ desc    Get current user
+//@ route   POST /api/auth/me
+//@ access  PRIVATE
+const getCurrentUser = asyncHandler(async (req, res) => {
+    const user = req.user;
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      role: user.role,
+    });
+});
+
+module.exports = { signup, login, logout, getCurrentUser };
