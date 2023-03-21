@@ -109,7 +109,7 @@ const deleteReview = asyncHandler(async (req, res) => {
     console.log(err);
     res
       .status(500)
-      .json({ message: "Unable to add review", error: err.message });
+      .json({ message: "Unable to delete review", error: err.message });
   }
 });
 
