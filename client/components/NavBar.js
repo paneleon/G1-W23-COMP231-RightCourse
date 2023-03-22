@@ -15,11 +15,6 @@ const NavBar = () => {
               <a className="font-bold text-xl">RightCourse</a>
             </Link>
           </li>
-          <li>
-            <Link href="/posts">
-              <a className="bg-yellow-300 p-3 rounded-md">Discussions</a>
-            </Link>
-          </li>
         </div>
         {isAuthReady && !user && (
           <div className="flex space-x-4 items-center">

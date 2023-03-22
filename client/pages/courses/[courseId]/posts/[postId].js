@@ -2,8 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import axiosInstance from "../../configs/axios";
-import { useAuth } from "../../contexts/AuthContextProvider";
+import axiosInstance from "../../../../configs/axios";
+import { useAuth } from "../../../../contexts/AuthContextProvider";
 
 const PostDetailPage = () => {
   const [post, setpost] = React.useState(null);
