@@ -5,9 +5,10 @@ import { useAuth } from "../../contexts/AuthContextProvider";
 const PublicRoute = ({ children }) => {
   const { authState } = useAuth();
   const router = useRouter();
+  const { redirectLink } = router.query;
   useEffect(() => {
     if (authState.isAuthReady && authState.user) {
-      router.push("/");
+      router.push(redirectLink || "/");
     }
   }, [authState, router]);
 

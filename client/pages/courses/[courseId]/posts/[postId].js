@@ -11,7 +11,7 @@ const PostDetailPage = () => {
   const [replies, setReplies] = React.useState([]);
 
   const router = useRouter();
-  const { postId } = router.query;
+  const { postId, courseName } = router.query;
   const {
     authState: { user },
   } = useAuth();
@@ -64,7 +64,15 @@ const PostDetailPage = () => {
       <Head>
         <title>{post?.title} | RightCourse</title>
       </Head>
+      <div className="flex space-x-1 text-gray-500 mb-5">
+        <Link href={`/`}>
+          <a className="underline">Home</a>
+        </Link>
+        <span>-</span>
+        <span>Post: {post?.title}</span>
+      </div>
       <div>
+        <p className="text-gray-500">Related course: {courseName}</p>
         <h1 className="text-3xl font-semibold">{post?.title}</h1>
         <p className="text-slate-700 mt-2">{post?.content}</p>
       </div>

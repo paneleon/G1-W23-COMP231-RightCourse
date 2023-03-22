@@ -54,6 +54,13 @@ const DiscussionsPage = () => {
       <Head>
         <title>Discussion Board | RightCourse</title>
       </Head>
+      <div className="flex space-x-1 text-gray-500 mb-5">
+        <Link href={`/`}>
+          <a className="underline">Home</a>
+        </Link>
+        <span>-</span>
+        <span>Discussions: {courseName}</span>
+      </div>
       <div>
         <p className="font-bold">Discussion Board</p>
         <h1 className="text-3xl font-semibold mb-4">Course: {courseName}</h1>
@@ -128,7 +135,9 @@ const DiscussionsPage = () => {
                   })}
                 </p>
                 <div className="flex justify-end">
-                  <Link href={`/posts/${post._id}`}>
+                  <Link
+                    href={`/courses/${courseId}/posts/${post._id}?courseName=${courseName}`}
+                  >
                     <a className="underline">View Details</a>
                   </Link>
                 </div>

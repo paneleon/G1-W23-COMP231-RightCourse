@@ -121,6 +121,13 @@ const CourseDetailsPage = () => {
       <Head>
         <title>{course?.courseName} | RightCourse</title>
       </Head>
+      <div className="flex space-x-1 text-gray-500 mb-5">
+        <Link href={`/`}>
+          <a className="underline">Home</a>
+        </Link>
+        <span>-</span>
+        <span>{course?.courseName}</span>
+      </div>
       <div>
         <h1 className="text-3xl font-semibold">{course?.courseName}</h1>
         <p className="text-slate-700 mt-2">
