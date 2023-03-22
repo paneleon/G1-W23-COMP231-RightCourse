@@ -2,8 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import axiosInstance from "../../configs/axios";
-import { useAuth } from "../../contexts/AuthContextProvider";
+import axiosInstance from "../../../configs/axios";
+import { useAuth } from "../../../contexts/AuthContextProvider";
 
 const CourseDetailsPage = () => {
   const [course, setCourse] = React.useState(null);
@@ -20,24 +20,23 @@ const CourseDetailsPage = () => {
   const formRef = React.useRef(null);
 
   console.log(user);
- // fetch course and its reviews
- const fetchCourse = async () => {
-  try {
-    const { data } = await axiosInstance.get(`/course/${courseId}`);
-    console.log(data);
-    setCourse(data.course);
-    setReviews(data.reviews);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  // fetch course and its reviews
+  const fetchCourse = async () => {
+    try {
+      const { data } = await axiosInstance.get(`/course/${courseId}`);
+      console.log(data);
+      setCourse(data.course);
+      setReviews(data.reviews);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-React.useEffect(() => {
-  if (courseId) {
-    fetchCourse();
-  }
-}, [courseId]);
-
+  React.useEffect(() => {
+    if (courseId) {
+      fetchCourse();
+    }
+  }, [courseId]);
 
   // add new review
   const onAddReviewFormSubmit = async (e) => {
@@ -81,7 +80,7 @@ React.useEffect(() => {
       console.log(error);
     }
   };
- 
+
   const onEditReviewFormSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -141,13 +140,25 @@ React.useEffect(() => {
             <strong>Average rating:</strong>
             {course?.averageRating}
           </p>
+          <br />
+          <div>
+            <Link
+              href={`/courses/${courseId}/posts?courseName=${course?.courseName}`}
+            >
+              <a className="bg-yellow-300 p-3 rounded-md">
+                &rarr; View Discussions Board
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="mt-6">
-        <h2 className="text-xl font-medium mb-4">Reviews ({reviews.length})</h2>
+        <h2 className="text-xl font-medium mb-4">
+          Reviews ({reviews?.length})
+        </h2>
         <div className="grid grid-cols-2 gap-8 items-start">
           <div className="grid grid-cols-2  gap-4">
-            {reviews.length > 0 &&
+            {reviews?.length > 0 &&
               reviews.map((review) => (
                 <div
                   key={review._id}

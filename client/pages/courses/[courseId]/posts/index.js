@@ -1,16 +1,21 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React from "react";
-import axiosInstance from "../../configs/axios";
+import axiosInstance from "../../../../configs/axios";
 
 const DiscussionsPage = () => {
   const [posts, setPosts] = React.useState([]);
 
+  const router = useRouter();
+
+  const { courseId, courseName } = router.query;
   console.log(posts);
   const formRef = React.useRef(null);
   const fetchPosts = async () => {
     try {
-      const { data } = await axiosInstance.get("/post/getAll");
+      console.log(courseId);
+      const { data } = await axiosInstance.get("/post/getAll/" + courseId);
       setPosts(data.posts || []);
     } catch (error) {
       console.log(error);
@@ -25,6 +30,7 @@ const DiscussionsPage = () => {
       const { data } = await axiosInstance.post("/post/add", {
         title,
         content,
+        courseId,
       });
 
       // reset fetch posts
@@ -39,15 +45,18 @@ const DiscussionsPage = () => {
   };
 
   React.useEffect(() => {
-    fetchPosts();
-  }, []);
+    if (courseId) {
+      fetchPosts();
+    }
+  }, [courseId]);
   return (
     <div className="mt-6 max-w-4xl mx-auto">
       <Head>
         <title>Discussion Board | RightCourse</title>
       </Head>
       <div>
-        <h1 className="text-3xl font-semibold mb-4">Discussion Board</h1>
+        <p className="font-bold">Discussion Board</p>
+        <h1 className="text-3xl font-semibold mb-4">Course: {courseName}</h1>
         <p className="text-slate-700">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut fugit
           dignissimos obcaecati modi, quae ratione ipsam pariatur esse minus
@@ -91,7 +100,9 @@ const DiscussionsPage = () => {
         </div>
 
         <div className="mt-6">
-          <h2 className="text-xl font-medium mb-4">All Posts (4)</h2>
+          <h2 className="text-xl font-medium mb-4">
+            All Posts ({posts.length})
+          </h2>
           <div className="grid grid-cols-2  gap-4">
             {posts.map((post) => (
               <div
