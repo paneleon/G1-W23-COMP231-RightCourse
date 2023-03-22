@@ -55,6 +55,41 @@ const DiscussionsPage = () => {
           nostrum.
         </p>
 
+        <div className="mt-6 p-6 bg-white">
+          <form onSubmit={onAddPostFormSubmit} ref={formRef}>
+            <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-1">
+                <label htmlFor="userName" className="font-medium text-sm">
+                  Title
+                </label>
+                <input
+                  required
+                  type="text"
+                  name="title"
+                  placeholder="Title"
+                  className="border outline-none focus:ring-indigo-400 focus:ring-1 block w-full p-3 rounded"
+                />
+              </div>
+              <div className="flex flex-col space-y-1">
+                <label htmlFor="content" className="font-medium text-sm">
+                  Content
+                </label>
+                <textarea
+                  type="text"
+                  name="content"
+                  placeholder="Add your content here..."
+                  className="border outline-none focus:ring-indigo-400 focus:ring-1 block w-full p-3 rounded"
+                ></textarea>
+              </div>
+            </div>
+            <div className="flex justify-end mt-6">
+              <button className="bg-indigo-600 text-white p-3 rounded block w-48 text-center hover:bg-indigo-500 transition-all">
+                Add new post
+              </button>
+            </div>
+          </form>
+        </div>
+
         <div className="mt-6">
           <h2 className="text-xl font-medium mb-4">All Posts (4)</h2>
           <div className="grid grid-cols-2  gap-4">
