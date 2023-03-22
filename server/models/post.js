@@ -1,9 +1,13 @@
 const mongoose = require("mongoose");
 const User = require("./user");
 const Schema = mongoose.Schema;
-
+const Course = require("./course");
 const postSchema = new Schema(
   {
+    courseId: {
+      type: Schema.Types.ObjectId,
+      ref: Course,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: User,
