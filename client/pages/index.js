@@ -4,6 +4,7 @@ import axiosInstance from "../configs/axios";
 import Head from "next/head";
 const HomePage = () => {
   const [courses, setCourses] = React.useState([]);
+// Send request to api 
   const onFormSubmit = async (e) => {
     try {
       e.preventDefault();
