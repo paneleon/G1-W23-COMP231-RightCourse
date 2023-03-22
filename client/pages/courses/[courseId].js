@@ -20,6 +20,23 @@ const CourseDetailsPage = () => {
   const formRef = React.useRef(null);
 
   console.log(user);
+ // fetch course and its reviews
+ const fetchCourse = async () => {
+  try {
+    const { data } = await axiosInstance.get(`/course/${courseId}`);
+    console.log(data);
+    setCourse(data.course);
+    setReviews(data.reviews);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+React.useEffect(() => {
+  if (courseId) {
+    fetchCourse();
+  }
+}, [courseId]);
 
 
   // add new review
@@ -55,7 +72,50 @@ const CourseDetailsPage = () => {
     }
   };
 
+  const deleteReview = async (reviewId) => {
+    try {
+      await axiosInstance.delete(`/review/delete/${reviewId}`);
+      // refetch
+      await fetchCourse();
+    } catch (error) {
+      console.log(error);
+    }
+  };
  
+  const onEditReviewFormSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      const { professorName, mainTopics, comment, effectiveness } = e.target;
+      // do validation
+      if (
+        professorName.value === "" ||
+        mainTopics.value === "" ||
+        comment.value === "" ||
+        effectiveness.value === ""
+      ) {
+        return alert("Please fill all the fields");
+      }
+      const updatedReview = {
+        professorName: professorName.value,
+        mainTopics: mainTopics.value,
+        comment: comment.value,
+        effectiveness: effectiveness.value,
+      };
+      await axiosInstance.put(
+        `/review/update/${editedReview._id}`,
+        updatedReview
+      );
+      // refetch
+      await fetchCourse();
+
+      // set edited review to null
+      setEditedReview(null);
+
+      console.log(updatedReview);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="mt-6 max-w-7xl mx-auto">
