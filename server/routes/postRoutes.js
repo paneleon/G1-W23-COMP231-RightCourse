@@ -5,7 +5,7 @@ const { isAuthenticated } = require("../middlewares/isAuthenticated");
 
 //@ desc    Get All Posts
 //@ access  PUBLIC
-router.get("/getAll", postControllers.getAllPosts);
+router.get("/getAll/:courseId", postControllers.getAllPosts);
 //@ desc    Get one post by id
 //@ access  PUBLIC
 router.get("/getOne/:id", postControllers.getOnePost);

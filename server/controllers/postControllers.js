@@ -6,9 +6,12 @@ const Reply = require("../models/reply");
 //@ desc    Get all posts
 //@ route   Get /api/post/getAll
 //@ access  PUBLIC
-const getAllPosts = asyncHandler(async (_, res) => {
+const getAllPosts = asyncHandler(async (req, res) => {
   try {
-    const posts = await Post.find({});
+    const { courseId } = req.params;
+    const posts = await Post.find({
+      courseId,
+    });
 
     res.status(201).json({
       message: "Posts fetched successfully",
@@ -50,12 +53,13 @@ const getOnePost = asyncHandler(async (req, res) => {
 //@ access  PRIVATE
 const addNewPost = asyncHandler(async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, courseId } = req.body;
     // add new post
     const newPost = new Post({
       userId: req.user._id,
       title,
       content,
+      courseId,
     });
 
     // Save new post to database
