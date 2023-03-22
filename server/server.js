@@ -28,6 +28,8 @@ app.use("/api/review", require("./routes/reviewRoutes"));
 app.use("/api/school", require("./routes/schoolRoutes"));
 app.use("/api/search", require("./routes/searchRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/post", require("./routes/postRoutes"));
+app.use("/api/reply", require("./routes/replyRoutes"));
 
 app.use("/api/resetData", async (req, res) => {
     /* 
