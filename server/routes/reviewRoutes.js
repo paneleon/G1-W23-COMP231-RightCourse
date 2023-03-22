@@ -11,7 +11,7 @@ router.get('/:id', reviewControllers.getReviewByReviewId)
 router.post('/add', isAuthenticated, reviewControllers.addReview);
 //@ desc    Update a review 
 //@ access  PROTECTED   
-router.put('/:id', isAuthenticated, reviewControllers.updateReview);
+router.put('/update/:id', isAuthenticated, reviewControllers.updateReview);
 //@ desc    Delete a review 
 //@ access  PROTECTED   
 router.delete("/delete/:id", isAuthenticated, reviewControllers.deleteReview);

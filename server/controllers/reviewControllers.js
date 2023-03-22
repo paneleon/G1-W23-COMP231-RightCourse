@@ -38,6 +38,15 @@ const addReview = asyncHandler(async (req, res) => {
       effectiveness,
     });
 
+    // increase review count for course and caculate new average effectiveness rating
+    const course = await Course.findById(courseId);
+    course.totalReviews += 1;
+    course.averageRating =
+      (course.averageRating * (course.totalReviews - 1) +
+        Number(effectiveness)) /
+      course.totalReviews;
+    await course.save();
+
     // Save new review to database
     const savedReview = await newReview.save();
 
@@ -52,34 +61,34 @@ const addReview = asyncHandler(async (req, res) => {
 //@ access  PRIVATE   
 const updateReview = asyncHandler(async (req, res) => {
   try {
-    const { courseId, professorName, mainTopics, comments, effectiveness } = req.body;
-    const reviewId = req.params.id;
-    const userId = req.user._id;
-
-    const review = await Review.findById(reviewId);
-    const course = await Course.findById(courseId);
-
+    // update review with id and recalculate average effectiveness and total reviews for course
+    const { professorName, mainTopics, comment, effectiveness } = req.body;
+    const review = await Review.findById(req.params.id);
+    const course = await Course.findById(review.courseId);
+    
     if (!review) {
       return res.status(404).json({ message: `Review with id ${reviewId} does not exist` });
     }
 
-    if (!course) {
-      return res.status(404).json({ message: `Invalid course information` });
-    }
+    course.totalReviews -= 1;
+    course.averageRating =
+      (course.averageRating * (course.totalReviews + 1) -
+        Number(review.effectiveness)) /
+        course.totalReviews || 0;
+    course.totalReviews += 1;
+    course.averageRating =
+      (course.averageRating * (course.totalReviews - 1) +
+        Number(effectiveness)) /
+      course.totalReviews;
+    await course.save();
+    await Review.findByIdAndUpdate(req.params.id, {
+      professorName,
+      mainTopics,
+      comment,
+      effectiveness,
+    });
 
-    if (review.userId.toString() !== userId.toString()) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
-
-    review.courseId = courseId;
-    review.professorName = professorName;
-    review.mainTopics = mainTopics;
-    review.comments = comments;
-    review.effectiveness = effectiveness;
-
-    const updatedReview = await review.save();
-
-    res.status(200).json({ message: 'Review updated successfully', review: updatedReview });
+    res.status(201).json({ message: 'Review updated successfully'});
   } catch (err) {
     res.status(500).json({ message: 'Unable to update review', error: err.message });
   }

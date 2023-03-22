@@ -6,7 +6,7 @@ const Course = require('../models/course')
 //@ access  PUBLIC   
 const getCourseByCourseId = asyncHandler(async (req, res) => {
     try{
-        let course = await Course.findById(req.params.id);
+        let course = await Course.findById(req.params.id)
 
         if(course==null) {
             return res.status(404).json({message: `Course with id ${req.params.id} does not exist`});
