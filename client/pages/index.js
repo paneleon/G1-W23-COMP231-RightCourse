@@ -4,7 +4,7 @@ import axiosInstance from "../configs/axios";
 import Head from "next/head";
 const HomePage = () => {
   const [courses, setCourses] = React.useState([]);
-// Send request to api 
+  // Send request to api
   const onFormSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -28,8 +28,8 @@ const HomePage = () => {
       if (searchType === "COURSE_CODE") {
         url = `/search/course?courseCode=${searchTerm}`;
       }
-      if (searchType === "SCHOOL_ID") {
-        url = `/search/course?sid=${searchTerm}`;
+      if (searchType === "SCHOOL_NAME") {
+        url = `/search/course?schoolName=${searchTerm}`;
       }
 
       const { data } = await axiosInstance.get(url);
@@ -73,7 +73,7 @@ const HomePage = () => {
                   </option>
                   <option value="COURSE_NAME">Course Name</option>
                   <option value="COURSE_CODE">Course Code</option>
-                  <option value="SCHOOL_ID">School ID</option>
+                  <option value="SCHOOL_NAME">School Name</option>
                 </select>
               </div>
               <div className="grow">
