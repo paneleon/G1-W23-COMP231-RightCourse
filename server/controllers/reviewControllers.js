@@ -1,32 +1,32 @@
-const asyncHandler = require('express-async-handler');
-const Course = require('../models/course');
-const Review = require('../models/review')
+const asyncHandler = require("express-async-handler");
+const Course = require("../models/course");
+const Review = require("../models/review");
 
 //@ desc    Get one course review by review id
 //@ route   GET /api/review/:id
-//@ access  PUBLIC   
+//@ access  PUBLIC
 const getReviewByReviewId = asyncHandler(async (req, res) => {
-
   try {
     let review = await Review.findById(req.params.id);
 
     if (review == null) {
-      return res.status(404).json({ message: `Review with id ${req.params.id} does not exist` });
+      return res
+        .status(404)
+        .json({ message: `Review with id ${req.params.id} does not exist` });
     }
     res.json(review);
-  }
-  catch (error) {
+  } catch (error) {
     return res.status(500).json(error);
   }
+});
 
-})
-
-//@ desc    Add a review 
+//@ desc    Add a review
 //@ route   POST /api/review/add
-//@ access  PRIVATE   
+//@ access  PRIVATE
 const addReview = asyncHandler(async (req, res) => {
   try {
-    const { courseId, professorName, mainTopics, comments, effectiveness } = req.body;
+    const { courseId, professorName, mainTopics, comment, effectiveness } =
+      req.body;
 
     // Create new review object
     const newReview = new Review({
@@ -34,7 +34,7 @@ const addReview = asyncHandler(async (req, res) => {
       userId: req.user._id,
       professorName,
       mainTopics,
-      comments,
+      comment,
       effectiveness,
     });
 
@@ -50,24 +50,30 @@ const addReview = asyncHandler(async (req, res) => {
     // Save new review to database
     const savedReview = await newReview.save();
 
-    res.status(201).json({ message: 'Review added successfully', review: savedReview });
+    res
+      .status(201)
+      .json({ message: "Review added successfully", review: savedReview });
   } catch (err) {
-    res.status(500).json({ message: 'Unable to add review', error: err.message });
+    res
+      .status(500)
+      .json({ message: "Unable to add review", error: err.message });
   }
 });
 
-//@ desc    Update a review 
+//@ desc    Update a review
 //@ route   PUT /api/review/:id
-//@ access  PRIVATE   
+//@ access  PRIVATE
 const updateReview = asyncHandler(async (req, res) => {
   try {
     // update review with id and recalculate average effectiveness and total reviews for course
     const { professorName, mainTopics, comment, effectiveness } = req.body;
     const review = await Review.findById(req.params.id);
     const course = await Course.findById(review.courseId);
-    
+
     if (!review) {
-      return res.status(404).json({ message: `Review with id ${reviewId} does not exist` });
+      return res
+        .status(404)
+        .json({ message: `Review with id ${reviewId} does not exist` });
     }
 
     course.totalReviews -= 1;
@@ -88,9 +94,11 @@ const updateReview = asyncHandler(async (req, res) => {
       effectiveness,
     });
 
-    res.status(201).json({ message: 'Review updated successfully'});
+    res.status(201).json({ message: "Review updated successfully" });
   } catch (err) {
-    res.status(500).json({ message: 'Unable to update review', error: err.message });
+    res
+      .status(500)
+      .json({ message: "Unable to update review", error: err.message });
   }
 });
 
@@ -123,5 +131,8 @@ const deleteReview = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getReviewByReviewId, addReview, updateReview, deleteReview
-}
+  getReviewByReviewId,
+  addReview,
+  updateReview,
+  deleteReview,
+};
