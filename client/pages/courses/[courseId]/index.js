@@ -18,6 +18,7 @@ const CourseDetailsPage = () => {
   } = useAuth();
 
   const formRef = React.useRef(null);
+  const formRef1 = React.useRef(null);
 
   console.log(user);
   // fetch course and its reviews
@@ -115,6 +116,9 @@ const CourseDetailsPage = () => {
       console.log(error);
     }
   };
+  const onCancelEditReview = async ()=>{
+    setEditedReview(null);
+  }
 
   return (
     <div className="mt-6 max-w-7xl mx-auto">
@@ -291,6 +295,7 @@ const CourseDetailsPage = () => {
             <form
               onSubmit={onEditReviewFormSubmit}
               className="p-6 bg-white rounded shadow-md leading-8"
+              ref={formRef1}
             >
               <div className="mb-4 font-bold">Update your review here!</div>
               <div className="flex flex-col space-y-2">
@@ -350,8 +355,11 @@ const CourseDetailsPage = () => {
                   </select>
                 </div>
               </div>
-              <div className="flex justify-end mt-6">
-                <button className="bg-yellow-300  p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all">
+              <div className="flex justify-between mt-6">
+              <button type="reset" className="bg-rose-800 p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all" onClick={onCancelEditReview}>
+                  Cancel
+                </button>
+                <button type="submit" className="bg-yellow-300  p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all">
                   Update
                 </button>
               </div>

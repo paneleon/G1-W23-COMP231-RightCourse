@@ -7,6 +7,7 @@ import { useAuth } from "../../../../contexts/AuthContextProvider";
 
 const PostDetailPage = () => {
   const [post, setpost] = React.useState(null);
+  const [words, setWords] = React.useState();
 
   const [replies, setReplies] = React.useState([]);
 
@@ -128,10 +129,17 @@ const PostDetailPage = () => {
                   <textarea
                     type="text"
                     name="content"
+                    maxLength={1000}
                     placeholder="Add your content here..."
                     className="border outline-none focus:ring-indigo-400 focus:ring-1 block w-full p-3 rounded"
+                    onChange={() => setWords(event.target.value.length)}
                   ></textarea>
                 </div>
+                {words ? (
+                  <p className="font-medium text-sm">characters: {words}</p>
+                ) : (
+                  <p></p>
+                )}
               </div>
               <div className="flex justify-end mt-6">
                 <button className="bg-indigo-600 text-white p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all">
