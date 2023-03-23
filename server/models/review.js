@@ -1,30 +1,33 @@
-const mongoose = require('mongoose')
-const Course = require('./course')
-const User = require('./user')
+const mongoose = require("mongoose");
+const Course = require("./course");
+const User = require("./user");
 const Schema = mongoose.Schema;
 
-const reviewSchema = new Schema({
+const reviewSchema = new Schema(
+  {
     courseId: {
-        type: Schema.Types.ObjectId,
-        ref: Course
+      type: Schema.Types.ObjectId,
+      ref: Course,
     },
     userId: {
-        type: Schema.Types.ObjectId,
-        ref: User
+      type: Schema.Types.ObjectId,
+      ref: User,
     },
     professorName: {
-        type: String
+      type: String,
     },
     mainTopics: {
-        type: String
+      type: String,
     },
-    comments: {
-        type: String
+    comment: {
+      type: String,
     },
     effectiveness: {
-        type: Number,
-        required: true
-    }
-}, { timestamps: true })
+      type: Number,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = mongoose.model('Review', reviewSchema)
+module.exports = mongoose.model("Review", reviewSchema);
