@@ -6,6 +6,7 @@ import axiosInstance from "../../../../configs/axios";
 
 const DiscussionsPage = () => {
   const [posts, setPosts] = React.useState([]);
+  const [words, setWords] = React.useState();
 
   const router = useRouter();
 
@@ -93,9 +94,16 @@ const DiscussionsPage = () => {
                 <textarea
                   type="text"
                   name="content"
+                  onChange={() => setWords(event.target.value.length)}
+                  maxLength={1000}
                   placeholder="Add your content here..."
                   className="border outline-none focus:ring-indigo-400 focus:ring-1 block w-full p-3 rounded"
                 ></textarea>
+                {words ? (
+                  <p className="font-medium text-sm">characters: {words}</p>
+                ) : (
+                  <p></p>
+                )}
               </div>
             </div>
             <div className="flex justify-end mt-6">
