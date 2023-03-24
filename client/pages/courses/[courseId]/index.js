@@ -9,6 +9,7 @@ const CourseDetailsPage = () => {
   const [course, setCourse] = React.useState(null);
 
   const [reviews, setReviews] = React.useState([]);
+  
 
   const [editedReview, setEditedReview] = React.useState(null);
   const router = useRouter();
@@ -74,9 +75,12 @@ const CourseDetailsPage = () => {
 
   const deleteReview = async (reviewId) => {
     try {
+      const confirmed = window.confirm("Are you sure you want to delete this review?");
+      if (confirmed){
       await axiosInstance.delete(`/review/delete/${reviewId}`);
       // refetch
       await fetchCourse();
+      }
     } catch (error) {
       console.log(error);
     }
