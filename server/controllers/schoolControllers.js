@@ -18,7 +18,42 @@ const getSchoolBySchoolId = asyncHandler(async (req, res) => {
     }
 })
 
+//@ desc    Add a school
+//@ route   GET /api/school/add
+//@ access  PRIVATE   
+const addSchool = asyncHandler(async (req, res) => {
+    try{
+        // check if input school name is unique
+        let { schoolName, schoolType, location, description} = req.body;
+
+        const duplicateSchool = await School.find({schoolName});
+
+        if(duplicateSchool.length>0) {
+            return res
+            .status(409)
+            .json({ message: `School named ${schoolName} already exists` });
+        }
+
+        // save new school to database
+        const newSchool = new School({
+            schoolName, 
+            schoolType,
+            location,
+            description,
+        });
+        const savedSchool = await newSchool.save();
+
+        res
+        .status(201)
+        .json({ message: "School added successfully", school: savedSchool });
+    } catch (err) {
+        res
+        .status(500)
+        .json({ message: "Unable to add school", error: err.message });
+    }
+})
+
 module.exports = {
-    getSchoolBySchoolId
+    getSchoolBySchoolId, addSchool
 }
 

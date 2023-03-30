@@ -61,7 +61,7 @@ const addReview = asyncHandler(async (req, res) => {
 });
 
 //@ desc    Update a review
-//@ route   PUT /api/review/:id
+//@ route   PUT /api/review/update/:id
 //@ access  PRIVATE
 const updateReview = asyncHandler(async (req, res) => {
   try {
@@ -73,7 +73,12 @@ const updateReview = asyncHandler(async (req, res) => {
     if (!review) {
       return res
         .status(404)
-        .json({ message: `Review with id ${reviewId} does not exist` });
+        .json({ message: `Review with id ${req.params.id} does not exist` });
+    }
+
+    // check if review author and user who is requesting to update it match
+    if(req.user._id!==review.userId.toString()){
+      return res.status(403).json({ message: "Review can be updated by the author" });
     }
 
     course.totalReviews -= 1;
@@ -103,12 +108,24 @@ const updateReview = asyncHandler(async (req, res) => {
 });
 
 //@ desc    Delete a review
-//@ route   DELETE /api/review/add
+//@ route   DELETE /api/review/delete
 //@ access  PRIVATE
 const deleteReview = asyncHandler(async (req, res) => {
   try {
     // delete review with id and decrease review count for course and caculate new average effectiveness
     const review = await Review.findById(req.params.id);
+
+    if (!review) {
+      return res
+        .status(404)
+        .json({ message: `Review with id ${req.params.id} does not exist` });
+    }
+
+    // check if review author and user who is requesting to delete it match
+    if(req.user._id!==review.userId.toString()){
+      return res.status(403).json({ message: "Review can be deleted by the author" });
+    }
+
     const course = await Course.findById(review.courseId);
     console.log(course);
     course.totalReviews -= 1;
