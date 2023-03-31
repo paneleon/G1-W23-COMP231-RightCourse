@@ -9,7 +9,6 @@ const CourseDetailsPage = () => {
   const [course, setCourse] = React.useState(null);
 
   const [reviews, setReviews] = React.useState([]);
-  
 
   const [editedReview, setEditedReview] = React.useState(null);
   const router = useRouter();
@@ -75,11 +74,13 @@ const CourseDetailsPage = () => {
 
   const deleteReview = async (reviewId) => {
     try {
-      const confirmed = window.confirm("Are you sure you want to delete this review?");
-      if (confirmed){
-      await axiosInstance.delete(`/review/delete/${reviewId}`);
-      // refetch
-      await fetchCourse();
+      const confirmed = window.confirm(
+        "Are you sure you want to delete this review?"
+      );
+      if (confirmed) {
+        await axiosInstance.delete(`/review/delete/${reviewId}`);
+        // refetch
+        await fetchCourse();
       }
     } catch (error) {
       console.log(error);
@@ -120,9 +121,9 @@ const CourseDetailsPage = () => {
       console.log(error);
     }
   };
-  const onCancelEditReview = async ()=>{
+  const onCancelEditReview = async () => {
     setEditedReview(null);
-  }
+  };
 
   return (
     <div className="mt-6 max-w-7xl mx-auto">
@@ -223,6 +224,19 @@ const CourseDetailsPage = () => {
                       </button>
                     </div>
                   )}
+
+                  {user &&
+                    user._id !== review.userId._id &&
+                    user.role === "admin" && (
+                      <div className="flex justify-end gap-2 mt-3">
+                        <button
+                          className="p-2 rounded bg-rose-800 text-white block w-20 text-sm"
+                          onClick={() => deleteReview(review._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    )}
                 </div>
               ))}
           </div>
@@ -360,10 +374,17 @@ const CourseDetailsPage = () => {
                 </div>
               </div>
               <div className="flex justify-between mt-6">
-              <button type="reset" className="bg-rose-800 p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all" onClick={onCancelEditReview}>
+                <button
+                  type="reset"
+                  className="bg-rose-800 p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all"
+                  onClick={onCancelEditReview}
+                >
                   Cancel
                 </button>
-                <button type="submit" className="bg-yellow-300  p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all">
+                <button
+                  type="submit"
+                  className="bg-yellow-300  p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all"
+                >
                   Update
                 </button>
               </div>
