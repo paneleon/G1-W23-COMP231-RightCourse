@@ -1,6 +1,19 @@
 const asyncHandler = require('express-async-handler')
 const School = require('../models/school')
 
+//@ desc    Get a list of all schools
+//@ route   GET /api/school/getAll
+//@ access  PUBLIC  
+const getAllSchools = asyncHandler(async (req, res) => {        
+    try{
+        const schools = await School.find();
+        res.json(schools);
+    }
+    catch(error){
+        return res.status(500).json(error);
+    }
+})
+
 //@ desc    Get school by schoolId
 //@ route   GET /api/school/:id
 //@ access  PUBLIC   
@@ -54,6 +67,6 @@ const addSchool = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getSchoolBySchoolId, addSchool
+    getSchoolBySchoolId, addSchool, getAllSchools
 }
 
