@@ -66,7 +66,42 @@ const addSchool = asyncHandler(async (req, res) => {
     }
 })
 
+//@ desc    Update a school
+//@ route   GET /api/school/update/:id
+//@ access  PRIVATE   
+const updateSchool = asyncHandler(async (req, res) => {
+    try{
+        const { schoolName, schoolType, location, description } = req.body;
+
+        const duplicateSchool = await School.find({schoolName});
+
+        // check if user who is requesting to update is editor
+        if(req.user.role!=="editor"){
+            return res.status(403).json({ message: "School can be updated by editors" });
+        }
+
+        if(duplicateSchool.length>0) {
+            return res
+            .status(409)
+            .json({ message: `School named ${schoolName} already exists` });
+        }
+        
+        await School.findByIdAndUpdate(req.params.id, {
+            schoolName, 
+            schoolType, 
+            location, 
+            description 
+        });
+
+        res.status(201).json({ message: "School updated successfully" })
+    } catch (err) {
+        res
+        .status(500)
+        .json({ message: "Unable to update school", error: err.message });
+    }
+})
+
 module.exports = {
-    getSchoolBySchoolId, addSchool, getAllSchools
+    getSchoolBySchoolId, addSchool, getAllSchools, updateSchool
 }
 
