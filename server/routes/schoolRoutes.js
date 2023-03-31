@@ -4,6 +4,9 @@ const schoolControllers = require('../controllers/schoolControllers')
 const { isAuthenticated } = require("../middlewares/isAuthenticated");
 const { isAdmin } = require("../middlewares/isAdmin");
 
+//@ desc    Get all schools
+//@ access  PUBLIC 
+router.get('/getAll', schoolControllers.getAllSchools)
 //@ desc    Get school by schoolId
 //@ access  PUBLIC 
 router.get('/:id', schoolControllers.getSchoolBySchoolId)
