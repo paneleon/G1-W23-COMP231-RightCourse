@@ -42,7 +42,6 @@ const getSchoolBySchoolName = asyncHandler(async (req, res) => {
 //@ access  PUBLIC
 const courseQueryHandler = asyncHandler(async (req, res) => {
   try {
-    console.log("sdfsdf");
     const { sid, courseCode, courseName, schoolName } = req.query;
 
     if (schoolName) {

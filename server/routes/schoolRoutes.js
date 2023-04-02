@@ -13,6 +13,9 @@ router.post('/add', isAuthenticated, isAdmin, schoolControllers.addSchool);
 //@ desc    update a school 
 //@ access  PROTECTED   
 router.put('/update/:id', isAuthenticated, schoolControllers.updateSchool);
+//@ desc    Delete a school 
+//@ access  PROTECTED   
+router.delete('/delete/:id', isAuthenticated, isAdmin, schoolControllers.deleteSchool);
 //@ desc    Get school by schoolId
 //@ access  PUBLIC 
 router.get('/:id', schoolControllers.getSchoolBySchoolId)

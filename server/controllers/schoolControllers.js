@@ -1,5 +1,10 @@
 const asyncHandler = require('express-async-handler')
 const School = require('../models/school')
+const Course = require('../models/course')
+const Post = require('../models/post')
+const Reply = require('../models/reply')
+const Review = require('../models/review')
+
 
 //@ desc    Get a list of all schools
 //@ route   GET /api/school/getAll
@@ -32,7 +37,7 @@ const getSchoolBySchoolId = asyncHandler(async (req, res) => {
 })
 
 //@ desc    Add a school
-//@ route   GET /api/school/add
+//@ route   POST /api/school/add
 //@ access  PRIVATE   
 const addSchool = asyncHandler(async (req, res) => {
     try{
@@ -67,7 +72,7 @@ const addSchool = asyncHandler(async (req, res) => {
 })
 
 //@ desc    Update a school
-//@ route   GET /api/school/update/:id
+//@ route   PUT /api/school/update/:id
 //@ access  PRIVATE   
 const updateSchool = asyncHandler(async (req, res) => {
     try{
@@ -101,7 +106,54 @@ const updateSchool = asyncHandler(async (req, res) => {
     }
 })
 
+//@ desc    Delete a school
+//@ route   DELETE /api/school/delete/:id
+//@ access  PRIVATE   
+const deleteSchool = asyncHandler(async (req, res) => {
+    try {
+        // check if school exists
+        const schoolId = req.params.id;
+        const school = await School.findById(schoolId);
+
+        if(!school) {
+            return res
+                .status(404)
+                .json({message: `School with id ${schoolId} does not exist` });
+        }
+
+        const courses = await Course.find({schoolId});
+        for (let i = 0; i < courses.length; i++) { 
+            const courseId = courses[i]._id;
+
+            const posts = await Post.find({courseId});
+            for (let j = 0; j < posts.length; j++) {
+                const postId = posts[j]._id;
+
+                // delete replies
+                await Reply.deleteMany({postId});
+            }
+            // delete post 
+            await Post.deleteMany({courseId});
+
+            // delete reviews
+            await Review.deleteMany({courseId});
+        }
+        // delete courses
+        await Course.deleteMany({schoolId});
+
+        // delete school
+        await School.findByIdAndDelete(schoolId);
+
+        res.status(201).json({ message: "School deleted successfully" });
+    } catch (err) {
+    console.log(err);
+    res
+        .status(500)
+        .json({ message: "Unable to delete school", error: err.message });
+    }
+})
+
 module.exports = {
-    getSchoolBySchoolId, addSchool, getAllSchools, updateSchool
+    getSchoolBySchoolId, addSchool, getAllSchools, updateSchool, deleteSchool
 }
 
