@@ -80,9 +80,9 @@ const updateSchool = asyncHandler(async (req, res) => {
 
         const duplicateSchool = await School.find({schoolName});
 
-        // check if user who is requesting to update is editor
-        if(req.user.role!=="editor"){
-            return res.status(403).json({ message: "School can be updated by editors" });
+        // check if user who is requesting to update is editor or admin 
+        if(!(req.user.role ==="editor" || req.user.role === "admin")) {
+            return res.status(403).json({ message: "School can be updated by admin or editor" });
         }
 
         if(duplicateSchool.length>0) {
