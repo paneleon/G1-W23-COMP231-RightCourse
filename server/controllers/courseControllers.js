@@ -34,7 +34,7 @@ const addCourse = asyncHandler(async (req, res) => {
     let { schoolId, courseName, courseCode, description } = req.body;
 
     // check if input course code is unique
-    const duplicatedCourse = await Course.find({ courseCode });
+    const duplicatedCourse = await Course.find({ schoolId, courseCode });
 
     if (duplicatedCourse.length > 0) {
       return res
