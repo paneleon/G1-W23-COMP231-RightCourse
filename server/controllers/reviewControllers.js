@@ -112,7 +112,6 @@ const updateReview = asyncHandler(async (req, res) => {
 //@ access  PRIVATE
 const deleteReview = asyncHandler(async (req, res) => {
   try {
-    // delete review with id and decrease review count for course and caculate new average effectiveness
     const review = await Review.findById(req.params.id);
 
     if (!review) {
@@ -121,11 +120,12 @@ const deleteReview = asyncHandler(async (req, res) => {
         .json({ message: `Review with id ${req.params.id} does not exist` });
     }
 
-    // check if review author and user who is requesting to delete it match
-    if(req.user._id!==review.userId.toString()){
-      return res.status(403).json({ message: "Review can be deleted by the author" });
+    // only allow admin or reviewer (author of this review) to delete
+    if (req.user.role !== "admin" && req.user._id !== review.userId.toString()) {
+      return res.status(403).json({ message: "Review can be deleted by the author or admin" });
     }
 
+    // delete review with id and decrease review count for course and caculate new average effectiveness
     const course = await Course.findById(review.courseId);
     console.log(course);
     course.totalReviews -= 1;
