@@ -16,7 +16,7 @@ const getCourseByCourseId = asyncHandler(async (req, res) => {
         .status(404)
         .json({ message: `Course with id ${req.params.id} does not exist` });
     }
-    const reviews = await review
+    const reviews = await Review
       .find({ courseId: req.params.id })
       .populate("userId");
     res.json({ course, reviews });
@@ -79,6 +79,17 @@ const updateCourse = asyncHandler(async (req, res) => {
     // check if user who is requesting to update course is editor or admin
     if (!(req.user.role === "editor" || req.user.role === "admin")) {
       return res.status(403).json({ message: "School can be updated by admin or editor" });
+    }
+
+    // check duplicate 
+    const duplicatedCourse = await Course.find({ schoolId, courseCode });
+        
+    for(let i = 0; i<duplicatedCourse.length; i++){
+      if(duplicatedCourse[i]._id.toString() !== req.params.id){
+          return res
+          .status(409)
+          .json({ message: `Course with code ${courseCode} already exists` });
+      }
     }
 
     await Course.findByIdAndUpdate(req.params.id, {

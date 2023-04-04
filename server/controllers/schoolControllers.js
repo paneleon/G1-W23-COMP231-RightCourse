@@ -75,6 +75,7 @@ const addSchool = asyncHandler(async (req, res) => {
 //@ route   PUT /api/school/update/:id
 //@ access  PRIVATE   
 const updateSchool = asyncHandler(async (req, res) => {
+
     try {
         const school = await School.findById(req.params.id);
         if (!school) {
@@ -90,6 +91,17 @@ const updateSchool = asyncHandler(async (req, res) => {
             return res.status(403).json({ message: "School can be updated by admin or editor" });
         }
 
+        // check duplicate
+        const duplicateSchool = await School.find({schoolName});
+        
+        for(let i = 0; i<duplicateSchool.length; i++){
+            if(duplicateSchool[i]._id.toString() !== req.params.id){
+                return res
+                .status(409)
+                .json({ message: `School named ${schoolName} already exists` });
+            }
+        }
+        
         await School.findByIdAndUpdate(req.params.id, {
             schoolName,
             schoolType,
