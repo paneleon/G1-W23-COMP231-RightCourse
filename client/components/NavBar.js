@@ -15,6 +15,26 @@ const NavBar = () => {
               <a className="font-bold text-xl">RightCourse</a>
             </Link>
           </li>
+          {isAuthReady &&
+            user &&
+            (user.role === "admin" || user.role === "editor") && (
+              <>
+                <li>
+                  <Link href="/dashboard/courses">
+                    <a className="p-3 bg-indigo-100 rounded block text-center">
+                      Manage Courses
+                    </a>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/dashboard/schools">
+                    <a className="p-3 bg-indigo-100 rounded block text-center">
+                      Manage Schools
+                    </a>
+                  </Link>
+                </li>
+              </>
+            )}
         </div>
         {isAuthReady && !user && (
           <div className="flex space-x-4 items-center">
