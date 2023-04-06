@@ -4,6 +4,18 @@ const Review = require("../models/review");
 const Post = require("../models/post");
 const Reply = require("../models/reply");
 
+//@ desc    Get a list of all courses
+//@ route   GET /api/course/getAll
+//@ access  PUBLIC
+const getAllCourses = asyncHandler(async (req, res) => {
+  try {
+    const courses = await Course.find().populate("schoolId");
+    res.json(courses);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
 //@ desc    Get course by courseId
 //@ route   GET /api/course/:id
 //@ access  PUBLIC
@@ -16,9 +28,9 @@ const getCourseByCourseId = asyncHandler(async (req, res) => {
         .status(404)
         .json({ message: `Course with id ${req.params.id} does not exist` });
     }
-    const reviews = await Review
-      .find({ courseId: req.params.id })
-      .populate("userId");
+    const reviews = await Review.find({ courseId: req.params.id }).populate(
+      "userId"
+    );
     res.json({ course, reviews });
   } catch (error) {
     console.log(error);
@@ -51,9 +63,10 @@ const addCourse = asyncHandler(async (req, res) => {
     });
 
     const savedCourse = await newCourse.save();
-    res
-      .status(201)
-      .json({ message: `Course ${courseName} added successfully`, course: savedCourse });
+    res.status(201).json({
+      message: `Course ${courseName} added successfully`,
+      course: savedCourse,
+    });
   } catch (err) {
     res
       .status(500)
@@ -66,7 +79,6 @@ const addCourse = asyncHandler(async (req, res) => {
 //@ access  PRIVATE
 const updateCourse = asyncHandler(async (req, res) => {
   try {
-
     const course = await Course.findById(req.params.id);
     if (!course) {
       return res
@@ -78,15 +90,17 @@ const updateCourse = asyncHandler(async (req, res) => {
 
     // check if user who is requesting to update course is editor or admin
     if (!(req.user.role === "editor" || req.user.role === "admin")) {
-      return res.status(403).json({ message: "School can be updated by admin or editor" });
+      return res
+        .status(403)
+        .json({ message: "School can be updated by admin or editor" });
     }
 
-    // check duplicate 
+    // check duplicate
     const duplicatedCourse = await Course.find({ schoolId, courseCode });
-        
-    for(let i = 0; i<duplicatedCourse.length; i++){
-      if(duplicatedCourse[i]._id.toString() !== req.params.id){
-          return res
+
+    for (let i = 0; i < duplicatedCourse.length; i++) {
+      if (duplicatedCourse[i]._id.toString() !== req.params.id) {
+        return res
           .status(409)
           .json({ message: `Course with code ${courseCode} already exists` });
       }
@@ -148,5 +162,9 @@ const deleteCourse = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getCourseByCourseId, addCourse, updateCourse, deleteCourse
+  getCourseByCourseId,
+  addCourse,
+  updateCourse,
+  deleteCourse,
+  getAllCourses,
 };
