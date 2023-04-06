@@ -149,35 +149,38 @@ const SchoolDashBoardIndexPage = () => {
             </div>
           )}
         </div>
-        <div className="mt-6">
-          <h2 className="text-xl font-medium mb-4">
-            All Schools ({schools.length})
-          </h2>
-          <div className="grid grid-cols-2  gap-4">
-            {schools.map((school) => (
-              <div
-                key={school._id}
-                className="bg-white p-6 rounded shadow-md leading-8 hover:scale-105 transition-all"
-              >
-                <h3>
-                  <strong>School name:</strong> {school.schoolName}
-                </h3>
-                <p>
-                  <strong>School type:</strong> {school.schoolType}
-                </p>
-                <p>
-                  <strong>Location:</strong> {school.location}
-                </p>
 
-                <div className="flex justify-end">
-                  <Link href={`/dashboard/schools/${school._id}`}>
-                    <a className="underline">View Details</a>
-                  </Link>
+        {user && user.role == "admin" && (
+          <div className="mt-6">
+            <h2 className="text-xl font-medium mb-4">
+              All Schools ({schools.length})
+            </h2>
+            <div className="grid grid-cols-2  gap-4">
+              {schools.map((school) => (
+                <div
+                  key={school._id}
+                  className="bg-white p-6 rounded shadow-md leading-8 hover:scale-105 transition-all"
+                >
+                  <h3>
+                    <strong>School name:</strong> {school.schoolName}
+                  </h3>
+                  <p>
+                    <strong>School type:</strong> {school.schoolType}
+                  </p>
+                  <p>
+                    <strong>Location:</strong> {school.location}
+                  </p>
+
+                  <div className="flex justify-end">
+                    <Link href={`/dashboard/schools/${school._id}`}>
+                      <a className="underline">View Details</a>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
