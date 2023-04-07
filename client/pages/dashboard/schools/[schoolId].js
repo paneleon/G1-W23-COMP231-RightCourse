@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
+
 import axiosInstance from "../../../configs/axios";
 import { useAuth } from "../../../contexts/AuthContextProvider";
 
@@ -74,6 +75,21 @@ const SchoolDetail = () => {
     }
   };
 
+ // delete school
+ const deleteSchool = async (schoolId) => {
+  try {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this school?"
+    );
+    if (confirmed) {
+      await axiosInstance.delete(`/school/delete/${schoolId}`);
+      // redirect
+      router.push('/dashboard/schools');
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 
 
@@ -155,19 +171,16 @@ const SchoolDetail = () => {
               </div>
             </div>
             <div className="flex justify-end mt-6">
-            {/* <button
-                  type="reset"
-                  className="bg-rose-800 p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all"
-                  onClick={onCancelEditReview}
-                >
-                  Delete
-                </button>
-                <button
-                  type="submit"
-                  className="bg-yellow-300  p-3 rounded block w-36 text-center hover:bg-indigo-500 transition-all"
-                >
-                  Update
-                </button> */}
+            {user && user.role === "admin" && (
+                  <div className="flex justify-end gap-2 mt-3">
+                    <button
+                      className="p-2 rounded bg-rose-800 text-white block w-20 text-sm"
+                      onClick={() => deleteSchool(school._id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
             </div>
           </form>
           )}
