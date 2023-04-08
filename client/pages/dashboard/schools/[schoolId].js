@@ -52,28 +52,26 @@ const SchoolDetail = () => {
       ) {
         return alert("Please fill all the fields");
       }
-      const newSchool = {
+      const updatedSchool = {
         schoolName: schoolName.value,
         schoolType: schoolType.value,
         location: location.value,
         description: description.value,
       };
-      //   await axiosInstance.post("/school/add", newSchool);
-      const response = await axiosInstance.post("/school/add", newSchool);
-      const newSchoolId = response.data.school._id
-      console.log("new",newSchoolId)
-
-      router.push(`/schools/${newSchoolId}`);
+      await axiosInstance.put(`/school/update/${schoolId}`, updatedSchool);
       // refetch
-      await fetchSchools();
-
+      await fetchSchoolDetail();
       // clear form
       formRef.current.reset();
-      console.log(newReview);
+      // redirect
+      router.push('/dashboard/schools');
+      alert("School successfully updated!");
+      console.log(updatedSchool);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
  // delete school
  const deleteSchool = async (schoolId) => {
@@ -182,6 +180,16 @@ const SchoolDetail = () => {
                   </div>
                 )}
             </div>
+            <div className="flex justify-end mt-6">
+    {user && (
+      <button
+        type="submit"
+        className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
+      >
+        Update School Details
+      </button>
+    )}
+  </div>
           </form>
           )}
         </div>
