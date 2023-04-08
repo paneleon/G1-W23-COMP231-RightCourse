@@ -52,7 +52,7 @@ const SchoolDashBoardIndexPage = () => {
       const newSchoolId = response.data.school._id;
       console.log("new", newSchoolId);
 
-      router.push(`/schools/${newSchoolId}`);
+      router.push(`/dashboard/schools/${newSchoolId}`);
       // refetch
       await fetchSchools();
 
