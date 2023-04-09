@@ -69,6 +69,10 @@ const SchoolDetail = () => {
       console.log(updatedSchool);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 409) {
+        alert("School already exists");
+        formRef.current
+      }
     }
   };
   
