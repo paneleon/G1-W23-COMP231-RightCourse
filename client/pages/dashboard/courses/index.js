@@ -69,6 +69,10 @@ const CourseDashBoardIndexPage = () => {
       console.log(data);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 409) {
+        alert("Course already exists");
+        formRef.current
+      }
     }
   };
 
@@ -105,6 +109,10 @@ const CourseDashBoardIndexPage = () => {
       setEditedCourse(null);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 409) {
+        alert("Course already exists");
+        formRef.current
+      }
     }
   };
   const onCancelEditCourse = async () => {

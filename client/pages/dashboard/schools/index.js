@@ -49,6 +49,7 @@ const SchoolDashBoardIndexPage = () => {
       };
       //   await axiosInstance.post("/school/add", newSchool);
       const response = await axiosInstance.post("/school/add", newSchool);
+      console.log("res",response.status);
       const newSchoolId = response.data.school._id;
       console.log("new", newSchoolId);
 
@@ -59,8 +60,18 @@ const SchoolDashBoardIndexPage = () => {
       // clear form
       formRef.current.reset();
       console.log(newReview);
+
+
+      if (response.status === 409) {
+        alert("School already exists");
+      }
+      
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
+      if (error.response.status === 409) {
+        alert("School already exists");
+        
+      }
     }
   };
 
