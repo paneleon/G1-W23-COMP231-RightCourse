@@ -161,7 +161,7 @@ const SchoolDashBoardIndexPage = () => {
           )}
         </div>
 
-        {user && user.role == "admin" && (
+        {user && (user.role === "admin" || user.role === "editor") && (
           <div className="mt-6">
             <h2 className="text-xl font-medium mb-4">
               All Schools ({schools.length})
