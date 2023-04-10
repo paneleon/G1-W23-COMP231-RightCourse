@@ -59,7 +59,7 @@ const RegisterPage = () => {
                   </label>
                   <select className="p-3 border outline-none" name="role">
                     <option value="admin">Admin</option>
-                    <option value="edtior">Editor</option>
+                    <option value="editor">Editor</option>
                     <option value="user">User</option>
                   </select>
                 </div>
